@@ -23,10 +23,10 @@
 # assumes total mem of array < 2^32
 
 qcksrt:
-  add   $t0,$0,$0							# Use NULL from stdlib
+  add   $t0,$0,$0              # Use NULL from stdlib
   addi  $t1,$a1,-1
   addi  $t2,$a2,-1
-                             	# Escape conditions:
+                               # Escape conditions:
   beq   $a0,$t0,qcksrt_done    # if the base address is NULL
   blez  $t1,qcksrt_done        # if the number of elems <= 1
   bltz  $t2,qcksrt_done        # if the size of an elem <1
@@ -49,7 +49,7 @@ qcksrt:
   add   $s2,$a2,$0            # $s2 := size of an elem
   add   $s3,$a3,$0            # $s3 := ptr to the comparator
 
-  add   $s4,$s0,$0	          # $s4 := init left scanner to the PIVOT
+  add   $s4,$s0,$0            # $s4 := init left scanner to the PIVOT
   mult  $s1,$s2               # Get the total mem footprint of array
   mflo  $t0                   # $t0 := total mem of array
   add   $s5,$s0,$t0           # $s5 := init right scanner to END
@@ -63,14 +63,14 @@ leftscan:
   add   $a1,$s4,$0            # pass the left scanner as arg1 of comparator
   jalr  $s3                   # call the comparator
   blez  $v0,rightscan         # If pivot < left scanner, start right scan
-	j			leftscan							# continue left scan	
-rightscan:				
-  sub   $s5,$s5,$s2						# Decrement. (Not possible to go past beginning.)
+  j     leftscan              # continue left scan  
+rightscan:        
+  sub   $s5,$s5,$s2           # Decrement. (Not possible to go past beginning.)
   add   $a0,$s0,$0            # pass the pivot as arg0 of comparator
   add   $a1,$s5,$0            # pass the right scanner as arg1 of comparator
   jalr  $s3                   # call the comparator
   bgez  $v0,exchange_elems    # If pivot >= right scanner, stop scan. TODO? > better?
-	j			rightscan
+  j     rightscan
 
 exchange_elems:
   sub   $t0,$s5,$s4           # $t0 := Have the scanners crossed? If $t0 < 0, yes.
@@ -93,7 +93,7 @@ mv_data:
   sub   $t4,$s2,$t3           # $t5 := Have we transfered all the blocks?
   bgtz  $t4,mv_data           #    if not, continue transfer
 
-  bgtz  $t0,leftscan	  			# Scanners haven't yet crossed
+  bgtz  $t0,leftscan          # Scanners haven't yet crossed
   
 # Prepare for recursive call (note: the pivot is now at $s5)
 

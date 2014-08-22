@@ -4,7 +4,7 @@
 #define O_RDWR                02
 
         .set    noreorder
-				.globl	main
+        .globl  main
 
 main:
 #       fd = open("/dev/stdout", O_RDWR, 0);

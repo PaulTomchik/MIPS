@@ -3,6 +3,6 @@
 
 
 void qcksrt (void* base, size_t num, size_t size,
-				  	int (*compar)(const void*,const void*));
+            int (*compar)(const void*,const void*));
 
 # endif
